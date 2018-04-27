@@ -41,7 +41,7 @@ parts:
         else 
           echo "The installation script anticipates the presence of wget."
           echo "To continue you may install GNU wget."
-	  exit 1
+          exit 1
       apt-get install -f atom-amd64.deb
       add-apt-repository ppa:supercollider/ppa
       apt-get update
