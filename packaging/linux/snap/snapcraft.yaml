@@ -33,9 +33,35 @@ parts:
     prepare: |
     build: |
     install: |
-      export LD_LIBRARY_PATH=''
-      -- install script here
-    prime:
-      - wtf
+      #pseudocode only
+      apt-get update
+      has_wget=$(which wget)
+      if [ -f $has_wget ] ; then
+        wget https://github.com/atom/atom/releases/download/v1.26.1/atom-amd64.deb atom-amd64.deb
+        else 
+          echo "The installation script anticipates the presence of wget."
+          echo "To continue you may install GNU wget."
+	  exit 1
+      apt-get install -f atom-amd64.deb
+      add-apt-repository ppa:supercollider/ppa
+      apt-get update
+      apt-get install supercollider
+      apt-get install -y haskell-platform
+      has_cabal=$(which cabal)
+      if [ -f $has_cabal ] ; then 
+          cabal update
+          cabal install tidal
+        else
+          echo "The installation script anticipates the presence of cabal."
+	  echo "Please review your Haskell installation."
+          echo "To continue you may install the Haskell package manager, cabal."
+          exit 2
+      apt-get install build-essential libsndfile1-dev libsamplerate0-dev \
+        liblo-dev libjack-jackd2-dev qjackctl jackd git
+      git clone --recursive https://github.com/tidalcycles/Dirt.git Dirt
+      cd Dirt
+      make clean; make      
+        
+    prime: |
     after: nil
     
