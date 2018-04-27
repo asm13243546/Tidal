@@ -52,8 +52,7 @@ parts:
           cabal update
           cabal install tidal
         else
-          echo "The installation script anticipates the presence of cabal."
-	  echo "Please review your Haskell installation."
+          echo "The installation script anticipates the presence of cabal."               echo "Please review your Haskell installation."
           echo "To continue you may install the Haskell package manager, cabal."
           exit 2
       apt-get install build-essential libsndfile1-dev libsamplerate0-dev \
