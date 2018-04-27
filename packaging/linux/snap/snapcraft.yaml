@@ -10,7 +10,32 @@ Distributed under the terms of the GNU Public license version 3 (or later).
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
+apps:
+  tidal: something
+    command: something-else
+    plugs:
+      - foo
+      - bar
+
 parts:
-  my-part:
-    # See 'snapcraft plugins'
+  tidal:
+    source: .
+    source-tag: nil
     plugin: nil
+    build-packages:
+      - foo
+      - bar
+    stage-packages:
+      - foo
+      - bar
+    build-attributes:
+      - no-system-libraries
+    prepare: |
+    build: |
+    install: |
+      export LD_LIBRARY_PATH=''
+      -- install script here
+    prime:
+      - wtf
+    after: nil
+    
