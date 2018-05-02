@@ -26,10 +26,10 @@ parts:
     prepare: |
     
       apt-get update
-      add-apt-repository ppa:supercollider/ppa
-      apt-get install supercollider
       apt-get install build-essential libsndfile1-dev libsamplerate0-dev \
         liblo-dev libjack-jackd2-dev qjackctl jackd git
+      add-apt-repository ppa:supercollider/ppa
+      apt-get install supercollider
       apt-get install -y haskell-platform
     
     build: |
