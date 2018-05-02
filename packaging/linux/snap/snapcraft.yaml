@@ -19,39 +19,45 @@ parts:
     source: .
     source-tag: nil
     plugin: nil
+    
     build-attributes:
       - no-system-libraries
+    
     prepare: |
-    build: |
-    install: |
+    
       apt-get update
+      add-apt-repository ppa:supercollider/ppa
+      apt-get install supercollider
+      apt-get install build-essential libsndfile1-dev libsamplerate0-dev \
+        liblo-dev libjack-jackd2-dev qjackctl jackd git
+      apt-get install -y haskell-platform
+    
+    build: |
+      
       has_wget=$(which wget)
       if [ -f $has_wget ] ; then
         wget https://github.com/atom/atom/releases/download/v1.26.1/atom-amd64.deb
         else 
-          echo "The installation script anticipates the presence of wget."
+          echo "The Atom installation script anticipates the presence of wget."
           echo "To continue you may install GNU wget."
           exit 1
       fi
       apt-get install -f atom-amd64.deb
-      add-apt-repository ppa:supercollider/ppa
-      apt-get update
-      apt-get install supercollider
-      apt-get install -y haskell-platform
+      
+      git clone --recursive https://github.com/tidalcycles/Dirt.git Dirt
+      cd Dirt
+      make clean; make
+    
+    install: |
+        
       has_cabal=$(which cabal)
       if [ -f $has_cabal ] ; then 
           cabal update
           cabal install tidal
         else
-          echo "The installation script anticipates the presence of cabal."
+          echo "The Tidal installation script anticipates the presence of cabal."
           echo "Please review your Haskell installation."
           echo "To continue you may install the Haskell package manager, cabal."
           exit 2
       fi
-      apt-get install build-essential libsndfile1-dev libsamplerate0-dev \
-        liblo-dev libjack-jackd2-dev qjackctl jackd git
-      git clone --recursive https://github.com/tidalcycles/Dirt.git Dirt
-      cd Dirt
-      make clean; make      
-        
     
