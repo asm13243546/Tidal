@@ -1,47 +1,38 @@
-name: Tidal # you probably want to 'snapcraft register <name>'
-version: '1.0-dev' # just for humans, typically '1.2+git' or '1.3.2'
-summary: Pattern language (here for livecoding music) # 79 char long summary
+name: tidal
+version: '1.0-dev'
+summary: Pattern language (here for livecoding music)
+type: app
 description: |
-
-Language for live coding of pattern
-For documentation, mailing list and more info see here: http://tidal.lurk.org/
-(c) Alex McLean and contributors, 2018
-Distributed under the terms of the GNU Public license version 3 (or later).
+  Language for live coding of pattern
+  (c) Alex McLean and contributors, 2018
+  Distributed under the terms of the GNU Public license version 3 (or later).
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
-  tidal: something
-    command: something-else
-    plugs:
-      - foo
-      - bar
+  tidal:
+    command: desktop-launch $SNAP/usr/bin/tidal
+    desktop: |
 
 parts:
   tidal:
     source: .
     source-tag: nil
     plugin: nil
-    build-packages:
-      - foo
-      - bar
-    stage-packages:
-      - foo
-      - bar
     build-attributes:
       - no-system-libraries
     prepare: |
     build: |
     install: |
-      #pseudocode only
       apt-get update
       has_wget=$(which wget)
       if [ -f $has_wget ] ; then
-        wget https://github.com/atom/atom/releases/download/v1.26.1/atom-amd64.deb atom-amd64.deb
+        wget https://github.com/atom/atom/releases/download/v1.26.1/atom-amd64.deb
         else 
           echo "The installation script anticipates the presence of wget."
           echo "To continue you may install GNU wget."
           exit 1
+      fi
       apt-get install -f atom-amd64.deb
       add-apt-repository ppa:supercollider/ppa
       apt-get update
@@ -56,12 +47,11 @@ parts:
           echo "Please review your Haskell installation."
           echo "To continue you may install the Haskell package manager, cabal."
           exit 2
+      fi
       apt-get install build-essential libsndfile1-dev libsamplerate0-dev \
         liblo-dev libjack-jackd2-dev qjackctl jackd git
       git clone --recursive https://github.com/tidalcycles/Dirt.git Dirt
       cd Dirt
       make clean; make      
         
-    prime: |
-    after: nil
     
